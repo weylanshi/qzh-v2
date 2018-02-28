@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: qzh-api-gateway
+  profiles:
+    active: dev
+  http:
+    multipart:
+      max-file-size: 2000Mb #文件上传大小限制
+      max-request-size: 2500Mb #文件下载大小限制
+server:
+  port: 8100
+
+zuul:
+  sensitive-headers:
+ # ignored-services: microservice-provider-user                        # 需要忽视的服务(配置后将不会被路由)
+  routes:
+    portal:                                                            # 可以随便写，在zuul上面唯一即可；当这里的值 = service-id时，service-id可以不写。
+      path: /portal/**                                                 # 想要映射到的路径
+      service-id: qzh-portal                                           # Eureka中的serviceId
+    file:
+      path: /file/**
+      service-id: qzh-file
+    user:
+      path: /user/**
+      service-id: qzh-sso
+    standard:
+      path: /standard/**
+      service-id: qzh-standard
+    market:
+      path: /market/**
+      service-id: qzh-market
+    nonstandard:
+      path: /nonstandard/**
+      service-id: qzh-nonstandard
+    personalCenter:
+          path: /personalCenter/**
+          service-id: qzh-personalCenter
+    store:
+      path: /store/**
+      service-id: qzh-store
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+              timeoutInMilliseconds: 60000
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
