@@ -16,10 +16,8 @@ target/
 *.ipr
 .svn/
 logs/
-<<<<<<< HEAD
 
-=======
->>>>>>> 7d5ed5d1f7c39a2d4af9beb82c581bb9e61144e9
+
 ### NetBeans ###
 nbproject/private/
 build/
