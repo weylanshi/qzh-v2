@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huidong.qzh.standard.mapper.ProductSpecOptionRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.huidong.qzh.standard.entity.ProductSpecOptionRelation" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="spec_option_id" property="specOptionId" jdbcType="INTEGER" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+    <result column="spec_option_name" property="specOptionName" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

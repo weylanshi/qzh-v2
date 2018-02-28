@@ -1,0 +1,19 @@
+# elasticSearch
+spring:
+  data:
+    elasticsearch:
+        cluster-name: elasticsearch
+        cluster-nodes: 192.168.100.73:9300
+
+---
+server:
+  port: 8700
+
+---
+# rabbitMq
+spring:
+  rabbitmq:
+    host: 192.168.100.73
+    port: 5672
+    username: root
+    password: huidong123

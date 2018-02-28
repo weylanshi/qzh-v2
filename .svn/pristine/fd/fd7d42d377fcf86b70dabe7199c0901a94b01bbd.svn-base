@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: qzh-sso
+  profiles:
+    active: dev
+#  cloud:
+#    config:
+#       uri: http://127.0.0.1:8881
+#       fail-fast: false
+---
+# zipkin 监控
+spring:
+  zipkin:
+    base-url: http://localhost:8600
+  sleuth:
+    sampler:
+      percentage: 1
+---
+spring:
+  redis:
+    database: 0
+    host: 192.168.100.73
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-idle: 8
+      max-wait: -1
+    timeout: 0
+---
+spring:
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+---
+management:
+#  address: 127.0.0.1
+  security:
+    enabled: false
+---
+#用户session在redis中保存的key
+REDIS_USER_SESSION_KEY : REDIS_USER_SESSION_KEY
+
+#Session的过期时间,30分钟
+SSO_SESSION_EXPIRE : 1800
+
+

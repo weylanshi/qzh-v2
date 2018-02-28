@@ -1,0 +1,32 @@
+server:
+  port: 8400
+spring:
+  application:
+    name: qzh-nonstandard
+  data:
+    mongodb:
+      host: 192.168.60.21
+      port: 27017
+      database: product
+#      username: admin
+#      password: admin
+
+eureka:
+  instance:
+    hostname: qzh-nonstandard
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8200/eureka/
+
+#log
+logging:
+  level:
+    com:
+      huidong:
+        qzh: debug
+#          mapper: debug
+#          controller: debug
+  file: logs/qzh-nonstandard.log
+
+

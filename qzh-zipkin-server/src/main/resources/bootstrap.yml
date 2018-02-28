@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: qzh-zipkin
+zipkin:
+  storage:
+    type: mysql
+    StorageComponent: mysql
+
+---
+server:
+  port: 8600
+---
+eureka:
+  instance:
+    hostname: qzh-sso
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8200/eureka/
+---
+#jdbc
+spring:
+  datasource:
+    schema: classpath:mysql.sql
+    url: jdbc:mysql://192.168.100.72:3306/zipkin?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: huidong123123
+    continueOnError: true
+    initialize: false
+---
+#更改信息存储类型
+

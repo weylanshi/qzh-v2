@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: qzh-portal
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+management:
+  security:
+    enabled: false
+info:
+  app:
+    name: "@project.name@"
+    description: "@project.description@"
+    version: "@project.version@"
+    spring-boot-version: "@project.parent.version@"
+---
+# zipkin 监控
+spring:
+  zipkin:
+    base-url: http://localhost:8600
+  sleuth:
+    sampler:
+      percentage: 1
+
+#    default-property-inclusion: non_default
+#mybatis:
+#    type-aliases-package: com.huidong.qzh.portal.entity
+#    mapper-locations: classpath:mapper/*.xml
+#mapper:
+#    mappers:
+#        - com.huidong.qzh.portal.util.MyMapper
+#    not-empty: false
+#    identity: MYSQL
+#pagehelper:
+#    helperDialect: mysql
+#    reasonable: true
+#    supportMethodsArguments: true
+#    params: count=countSql

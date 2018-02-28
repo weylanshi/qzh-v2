@@ -1,0 +1,14 @@
+server:
+  port: 8300
+spring:
+  application:
+    name: qzh-turbine
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8200/eureka/
+  instance:
+    prefer-ip-address: true
+turbine:
+  appConfig: qzh-sso
+  clusterNameExpression: "'default'"

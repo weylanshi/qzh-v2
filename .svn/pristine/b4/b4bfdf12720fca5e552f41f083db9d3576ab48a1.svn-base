@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qzh.store.mapper.StoreInformationMapper">
+  <resultMap id="BaseResultMap" type="com.qzh.store.entity.StoreInformation">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="store_logo" jdbcType="VARCHAR" property="storeLogo" />
+    <result column="store_pca" jdbcType="VARCHAR" property="storePca" />
+    <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
+    <result column="store_industry" jdbcType="VARCHAR" property="storeIndustry" />
+    <result column="management_types" jdbcType="INTEGER" property="managementTypes" />
+    <result column="attention_num" jdbcType="INTEGER" property="attentionNum" />
+    <result column="customer_service" jdbcType="VARCHAR" property="customerService" />
+    <result column="member_level" jdbcType="VARCHAR" property="memberLevel" />
+    <result column="rate_logistics" jdbcType="DECIMAL" property="rateLogistics" />
+    <result column="rate_service" jdbcType="DECIMAL" property="rateService" />
+    <result column="rate_product" jdbcType="DECIMAL" property="rateProduct" />
+    <result column="rate_all" jdbcType="DECIMAL" property="rateAll" />
+    <result column="store_remark" jdbcType="LONGVARCHAR" property="storeRemark" />
+  </resultMap>
+
+</mapper>

@@ -1,0 +1,45 @@
+server:
+  port: 8800
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.100.72:3306/qzh_test?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: huidong123123
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      maxActive: 20 #最大连接池数量
+      initialSize: 1 #初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+      minIdle: 3 #最小连接池数量
+      maxWait: 6000 #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁。
+      timeBetweenEvictionRunsMillis: 60000  #  配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 300000 #配置一个连接在池中最小生存的时间，单位是毫秒
+      testWhileIdle: true #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      testOnBorrow: false #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      testOnReturn: false #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      filters: stat,wall,log4j #插件 监控：stat 防御sql注入：wall 日志：log4j
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 #打开mergeSql功能；慢SQL记录
+      useGlobalDataSourceStat: true #合并多个DruidDataSource的监控数据
+      validationQuery: SELECT 1 FROM DUAL #用来检测连接是否有效的sql
+      poolPreparedStatements: true #是否缓存preparedStatement
+      maxOpenPreparedStatements: 100 #要启用PSCache，必须配置大于0
+  cloud:
+    inetutils:
+      use-only-site-local-interfaces: true
+eureka:
+  instance:
+    hostname: qzh-sso
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8200/eureka/
+
+#log
+logging:
+  level:
+    com:
+      huidong:
+        qzh: debug
+#          mapper: debug
+#          controller: debug
+  file: logs/qzh-sso.log

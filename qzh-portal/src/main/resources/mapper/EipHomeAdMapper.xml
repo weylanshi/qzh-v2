@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huidong.qzh.portal.mapper.EipHomeAdMapper" >
+  <resultMap id="BaseResultMap" type="com.huidong.qzh.portal.entity.EipHomeAd" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ad_title" property="adTitle" jdbcType="VARCHAR" />
+    <result column="ad_text" property="adText" jdbcType="VARCHAR" />
+    <result column="ad_pic" property="adPic" jdbcType="VARCHAR" />
+    <result column="ad_type" property="adType" jdbcType="VARCHAR" />
+    <result column="ad_type_text" property="adTypeText" jdbcType="VARCHAR" />
+    <result column="ad_start_time" property="adStartTime" jdbcType="TIMESTAMP" />
+    <result column="ad_end_time" property="adEndTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,26 @@
+server:
+  port: 8200
+eureka:
+  instance:
+    hostname: register-server1
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.100.71:8200/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    enable-self-preservation: false #服务端关闭自我保护模式
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: admin
+#log
+logging:
+  level:
+    com:
+      huidong:
+        qzh: warn
+#          mapper: error
+  file: logs/register-server.log

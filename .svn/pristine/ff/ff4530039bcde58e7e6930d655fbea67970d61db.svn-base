@@ -1,0 +1,16 @@
+eureka:
+  instance:
+    hostname: gateway
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@192.168.100.71:8200/eureka/
+
+#log
+logging:
+  level:
+    com:
+      huidong:
+        qzh: warn
+#          mapper: error
+  file: logs/qzh-api-gateway.log
