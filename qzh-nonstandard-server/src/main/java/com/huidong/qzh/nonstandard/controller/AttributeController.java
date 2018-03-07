@@ -23,7 +23,7 @@ public class AttributeController {
      * @return
      */
     @RequestMapping("/getAttributeByClassName")
-    public QzhResult getAttributeByClassName(@PathVariable(value = "className")  String className){
+    public QzhResult getAttributeByClassName(@RequestParam(required = false)  String className){
         try {
             return QzhResult.ok(attributeService.getAttributeByClassName(className));
         } catch (Exception e) {
@@ -37,9 +37,9 @@ public class AttributeController {
      * @param title
      * @return
      */
-    @RequestMapping("/getProductDetail/{title}")
+    @RequestMapping("/getProductDetail")
 
-    public QzhResult getProductDetail(@PathVariable(required = false)  String title){
+    public QzhResult getProductDetail(@RequestParam(required = false)  String title){
         try {
             return QzhResult.ok(attributeService.getProductDetail(title));
         } catch (Exception e) {

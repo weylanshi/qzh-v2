@@ -62,7 +62,7 @@ public class CommonServiceImpl implements CommonService {
      */
     @Override
     public QzhResult isAttentionStore(Integer accountId, Integer storeId) {
-        String url = "http://QZH-PERSONALCENTER/attentionStore/isAttentionStore?accountId={accountId}&storeId={storeId}";
+        String url = "http://QZH-PERSONALCENTER/attentionStore/isAttention?accountId={accountId}&storeId={storeId}";
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("accountId", accountId);
         map.put("storeId", storeId);

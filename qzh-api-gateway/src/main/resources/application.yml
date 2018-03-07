@@ -10,6 +10,7 @@ spring:
 server:
   port: 8100
 ---
+# zuul
 zuul:
   sensitive-headers:
  # ignored-services: microservice-provider-user                        # 需要忽视的服务(配置后将不会被路由)
@@ -41,6 +42,12 @@ zuul:
     ueditor:
       path: /ud/**
       service-id: qzh-ueditor
+    order:
+          path: /order/**
+          service-id: qzh-order
+    search:
+      path: /query/**
+      service-id: qzh-search
   host:
     connect-timeout-millis: 120000
     socket-timeout-millis: 120000

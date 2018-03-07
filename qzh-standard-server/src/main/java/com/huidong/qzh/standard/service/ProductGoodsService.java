@@ -87,5 +87,19 @@ public interface ProductGoodsService {
      */
     QzhResult updateGoodsCategoryId(String goodsIds,String categoryIds);
 
+    /**
+     * 根据商家id 查询产品表的为推荐产品  以及推荐产品个数 和为推荐产品个数
+     * @param memberId  商家id
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * 店铺装修时 宝贝推荐时用
+     * 1 为推荐
+     */
+    Map<String,Object> getNoRecommendGoods(Integer memberId,String customCategoryId,String keyword,String rangeOfPrice,Integer pageNo,Integer pageSize);
 
+    /**
+     * 根据id 修改is_commend
+     * */
+    Integer doRecommend(Integer id);
 }

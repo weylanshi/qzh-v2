@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qzh.store.mapper.DecorationRecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.qzh.store.entity.DecorationRecommend" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="is_show_title" property="isShowTitle" jdbcType="INTEGER" />
+    <result column="recommend_type" property="recommendType" jdbcType="INTEGER" />
+    <result column="sort_type" property="sortType" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="key_words" property="keyWords" jdbcType="VARCHAR" />
+    <result column="price_region" property="priceRegion" jdbcType="VARCHAR" />
+    <result column="page_size" property="pageSize" jdbcType="INTEGER" />
+    <result column="display_type" property="displayType" jdbcType="INTEGER" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

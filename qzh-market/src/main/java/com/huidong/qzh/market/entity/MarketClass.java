@@ -195,4 +195,18 @@ public class MarketClass {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+    @Override
+    public String toString() {
+        return "MarketClass{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", name='" + name + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", createDate=" + createDate +
+                ", lableId=" + lableId +
+                ", isRecommend=" + isRecommend +
+                ", sort=" + sort +
+                '}';
+    }
 }

@@ -1,0 +1,12 @@
+# 节点1
+spring:
+  profiles:
+    active: peer2
+server:
+  port: 8201
+eureka:
+  instance:
+    hostname: register-server1
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@127.0.0.1:8200/eureka/

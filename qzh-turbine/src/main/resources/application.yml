@@ -6,7 +6,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://admin:admin@localhost:8200/eureka/
+      defaultZone: http://admin:admin@localhost:8200/eureka/,http://admin:admin@localhost:8201/eureka/
   instance:
     prefer-ip-address: true
 turbine:

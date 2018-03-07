@@ -1,5 +1,7 @@
 package com.huidong.qzh.standard.service;
 
+import com.huidong.qzh.util.common.util.QzhResult;
+
 import java.util.Map;
 
 public interface ProductService {
@@ -15,5 +17,12 @@ public interface ProductService {
      * @param info
      */
     String insertProductPublishInfo(String info,Integer memberId);
+
+    /**
+     * 通过 产品ID 获取 产品信息   包含  产品名称 价格
+     * @param id
+     * @return
+     */
+    QzhResult getProductById(Integer id);
 
 }

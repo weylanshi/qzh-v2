@@ -44,7 +44,7 @@ public class ControllerInterceptor {
     /**
      * 定义拦截规则：拦截com.huidong.qzh.standard包下面的所有类中，有@RequestMapping注解的方法。
      */
-    @Pointcut("execution(* com.huidong.qzh..*(..))" +
+    @Pointcut("execution(* com.qzh..*(..))" +
             " && ( @annotation(org.springframework.web.bind.annotation.RequestMapping )" +
             " || @annotation(org.springframework.web.bind.annotation.GetMapping) " +
             " || @annotation(org.springframework.web.bind.annotation.PostMapping ))")

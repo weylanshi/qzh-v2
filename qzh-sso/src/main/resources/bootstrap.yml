@@ -16,6 +16,7 @@ spring:
     sampler:
       percentage: 1
 ---
+#redis连接
 spring:
   redis:
     database: 0

@@ -21,41 +21,31 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping("/insert")
-    public QzhResult insertProduct() {
-        ProductSearchDTO productSearchDTO = null;
-        for (int i = 0; i < 10; i++) {
-            productSearchDTO = new ProductSearchDTO();
-            productSearchDTO.setProductGoodsId(1 + i);
-            productSearchDTO.setProductName("白卡纸");
-            productSearchDTO.setOriginalPrice(new BigDecimal(10 + i));
-            productSearchDTO.setPromotionPrice(new BigDecimal(9 + i));
-            productSearchDTO.setSalesVolume(1000 + i);
-            productSearchDTO.setPicturePath("http://m.sceo360.com/product/product_30/img/9590e0dd430c428ab9ace04bd68a7f64.jpg");
-            productSearchDTO.setSelfSupport(1);
-            productSearchDTO.setEipMemberId(1 + i);
-            productSearchDTO.setEipMemberName("张三" + i + "的自营店");
-            try {
-                insertProductEvent.sendInsertProductEvent(productSearchDTO);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return QzhResult.error(e.getMessage(), "");
-            }
-        }
-        return QzhResult.ok();
-    }
-
     @RequestMapping("/delIndex")
     public QzhResult delProductIndex() {
         boolean b = productService.delIndex();
         return QzhResult.ok(b);
     }
 
-    @RequestMapping("/Search")
-    public QzhResult search(@RequestParam String q,
+    /**
+     * @param q        查询条件
+     * @param pageNo   页码
+     * @param pageSize 每页大小
+     * @param order    排序字段  1: 综合排序,2:销量优先 3:价格递增排序 4: 价格递减排序
+     * @param isNew    是否新品
+     * @param shopId   店铺id
+     * @return QzhResult
+     */
+    @RequestMapping("/product")
+    public QzhResult search(@RequestParam(required = false) String q,
                             @RequestParam(required = false, defaultValue = "1") Integer pageNo,
-                            @RequestParam(required = false, defaultValue = "16") Integer pageSize) {
-        QzhPageResult search = productService.search(q, pageNo, pageSize);
+                            @RequestParam(required = false, defaultValue = "16") Integer pageSize,
+                            @RequestParam(required = false, defaultValue = "1") Integer order,
+                            @RequestParam(required = false) Integer isNew,
+                            @RequestParam(required = false) Integer shopId,
+                            @RequestParam(required = false) String brand,
+                            @RequestParam(required = false) String specOptionName) {
+        QzhPageResult search = productService.search(q, pageNo, pageSize, order, isNew, shopId, brand, specOptionName);
         return QzhResult.ok(search);
     }
 

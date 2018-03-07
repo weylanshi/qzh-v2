@@ -12,7 +12,7 @@ spring:
       max-file-size: 2000Mb #文件上传大小限制
       max-request-size: 2500Mb #文件下载大小限制
 
-
+---
 zuul:
   sensitive-headers:
   routes:

@@ -1,3 +1,7 @@
+# 节点1
+spring:
+  profiles:
+    active: dev
 server:
   port: 8200
 eureka:
@@ -6,21 +10,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://admin:admin@127.0.0.1:8200/eureka/
-    registerWithEureka: false
-    fetchRegistry: false
-  server:
-    enableSelfPreservation: false #服务端关闭自我保护模式
-security:
-  basic:
-    enabled: true
-  user:
-    name: admin
-    password: admin
-#log
-logging:
-  level:
-    com:
-      huidong:
-        qzh: warn
-#          mapper: error
-  file: logs/qzh-portal.log
+    register-with-eureka: false
+    fetch-registry: false
+

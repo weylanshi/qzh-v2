@@ -197,4 +197,52 @@ public class ProductGoodsController{
     }
 
 
+    /**
+     *
+     * 根据商家id 查询产品表的为推荐产品  以及推荐产品个数 和为推荐产品个数
+     * 店铺装修时 宝贝推荐时用此接口
+     * @param customCategoryId 自定义分类的ID的拼接 以逗号隔开
+     * @param keyword 货物名称
+     * @param rangeOfPrice 价格范围
+     * @return
+     */
+    @RequestMapping("/getNoRecommendGoods")
+    public QzhResult getNoRecommendGoods(HttpServletRequest request,
+                                         @RequestParam(required = true) String customCategoryId,
+                                         @RequestParam(required = true) String keyword,
+                                         @RequestParam(required = true) String rangeOfPrice,
+                                         @RequestParam(required = false,defaultValue = "1") Integer pageNo,
+                                         @RequestParam(required = false,defaultValue = "5") Integer pageSize){
+        try {
+            QzhResult land = commonService.isLand(request);
+            if (land.getStatus() != 200) {
+                return land;
+            }
+            Map<Object, Object> eipMap = (Map<Object, Object>) land.getData();
+            Integer memberId = Integer.parseInt(eipMap.get("memberId").toString());
+            Map<String, Object> map = productGoodsService.getNoRecommendGoods(memberId,customCategoryId,keyword,rangeOfPrice,pageNo, pageSize);
+            return QzhResult.ok(map);
+        } catch (Exception e) {
+            return QzhResult.error(e.getMessage());
+        }
+
+
+    }
+
+    /**
+     * 根据产品id 修改产品 is_recommend 属性
+     * */
+    @RequestMapping("/doRecommend")
+    public QzhResult doRecommend(Integer productGoodsId){
+        try{
+            Integer num=productGoodsService.doRecommend(productGoodsId);
+            if(num>0){
+                return QzhResult.ok("推荐成功！");
+            }
+        }catch(Exception e){
+            return QzhResult.error(e.getMessage());
+        }
+        return QzhResult.error("推荐失败！");
+    }
+
 }

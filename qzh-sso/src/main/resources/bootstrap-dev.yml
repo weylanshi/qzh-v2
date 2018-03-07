@@ -1,5 +1,7 @@
 server:
   port: 8800
+---
+# musql
 spring:
   datasource:
     url: jdbc:mysql://192.168.100.72:3306/qzh_test?useUnicode=true&characterEncoding=utf8&useSSL=false
@@ -23,17 +25,21 @@ spring:
       validationQuery: SELECT 1 FROM DUAL #用来检测连接是否有效的sql
       poolPreparedStatements: true #是否缓存preparedStatement
       maxOpenPreparedStatements: 100 #要启用PSCache，必须配置大于0
+---
+# spring cloud inetutils
+spring:
   cloud:
     inetutils:
       use-only-site-local-interfaces: true
+---
 eureka:
   instance:
     hostname: qzh-sso
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://admin:admin@localhost:8200/eureka/
-
+      defaultZone: http://admin:admin@localhost:8200/eureka/,http://admin:admin@localhost:8201/eureka/
+---
 #log
 logging:
   level:

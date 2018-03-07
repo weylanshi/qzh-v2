@@ -31,7 +31,7 @@ public class MarketAd {
     private String productPictureUrl;
 
     /**
-     * 产品出售类型
+     * 产品出售类型   促销 2   推荐  1
      */
     @Column(name = "product_sell_type")
     private Integer productSellType;
@@ -53,6 +53,12 @@ public class MarketAd {
      */
     @Column(name = "goods_id")
     private Integer goodsId;
+
+    /**
+     * 单位
+     */
+    @Column(name = "product_unit")
+    private String productUnit;
 
     /**
      * 获取推荐和促销表
@@ -127,18 +133,18 @@ public class MarketAd {
     }
 
     /**
-     * 获取产品出售类型
+     * 获取产品出售类型   促销 2   推荐  1
      *
-     * @return product_sell_type - 产品出售类型
+     * @return product_sell_type - 产品出售类型   促销 2   推荐  1
      */
     public Integer getProductSellType() {
         return productSellType;
     }
 
     /**
-     * 设置产品出售类型
+     * 设置产品出售类型   促销 2   推荐  1
      *
-     * @param productSellType 产品出售类型
+     * @param productSellType 产品出售类型   促销 2   推荐  1
      */
     public void setProductSellType(Integer productSellType) {
         this.productSellType = productSellType;
@@ -196,5 +202,23 @@ public class MarketAd {
      */
     public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
+    }
+
+    /**
+     * 获取单位
+     *
+     * @return product_unit - 单位
+     */
+    public String getProductUnit() {
+        return productUnit;
+    }
+
+    /**
+     * 设置单位
+     *
+     * @param productUnit 单位
+     */
+    public void setProductUnit(String productUnit) {
+        this.productUnit = productUnit;
     }
 }

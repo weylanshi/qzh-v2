@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.huidong.qzh.standard.entity.*;
 import com.huidong.qzh.standard.mapper.*;
 import com.huidong.qzh.standard.service.ProductService;
+import com.huidong.qzh.util.common.util.QzhResult;
 import com.mongodb.util.JSON;
 import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -402,6 +403,22 @@ public class ProductServiceImpl implements ProductService {
             }
         }else{
             return "goods parameter is null !";
+        }
+    }
+
+    /**
+     * 通过 产品ID 获取 产品信息   包含  产品名称 价格
+     * @param id
+     * @return
+     */
+    @Override
+    public QzhResult getProductById(Integer id) {
+        try {
+            Product product = productMapper.selectByPrimaryKey(id);
+            return QzhResult.ok(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return QzhResult.error(e.getMessage());
         }
     }
 

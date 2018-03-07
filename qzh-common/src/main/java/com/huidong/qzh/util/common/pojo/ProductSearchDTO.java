@@ -2,8 +2,9 @@ package com.huidong.qzh.util.common.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
-public class ProductSearchDTO implements Serializable{
+public class ProductSearchDTO implements Serializable {
 
     /**
      * 商品id
@@ -30,7 +31,7 @@ public class ProductSearchDTO implements Serializable{
      */
     private String picturePath;
     /**
-     * 是否自营  1 是
+     * 是否自营  1 是 0 否
      */
     private Integer selfSupport;
     /**
@@ -41,6 +42,35 @@ public class ProductSearchDTO implements Serializable{
      * 商家名称    eip_member
      */
     private String eipMemberName;
+    /**
+     * 点击量
+     */
+    private Integer clickVolume;
+    /**
+     * 是否新品
+     */
+    private Integer isNew;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+    /**
+     * 分类id
+     */
+    private Integer categoryId;
+    /**
+     * 品牌
+     */
+    private String brand;
+    /**
+     * 规格
+     */
+    private String specOptionName;
+    /**
+     * 单位
+     */
+    private String unit;
+
 
 
     public Integer getProductGoodsId() {
@@ -115,6 +145,62 @@ public class ProductSearchDTO implements Serializable{
         this.eipMemberName = eipMemberName;
     }
 
+    public Integer getClickVolume() {
+        return clickVolume;
+    }
+
+    public void setClickVolume(Integer clickVolume) {
+        this.clickVolume = clickVolume;
+    }
+
+    public Integer getIsNew() {
+        return isNew;
+    }
+
+    public void setIsNew(Integer isNew) {
+        this.isNew = isNew;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getSpecOptionName() {
+        return specOptionName;
+    }
+
+    public void setSpecOptionName(String specOptionName) {
+        this.specOptionName = specOptionName;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
         return "ProductSearchDTO{" +
@@ -126,7 +212,14 @@ public class ProductSearchDTO implements Serializable{
                 ", picturePath='" + picturePath + '\'' +
                 ", selfSupport=" + selfSupport +
                 ", eipMemberId=" + eipMemberId +
-                ", eipMemberName=" + eipMemberName +
+                ", eipMemberName='" + eipMemberName + '\'' +
+                ", clickVolume=" + clickVolume +
+                ", isNew=" + isNew +
+                ", updateTime=" + updateTime +
+                ", categoryId=" + categoryId +
+                ", brand='" + brand + '\'' +
+                ", specOptionName='" + specOptionName + '\'' +
+                ", unit='" + unit + '\'' +
                 '}';
     }
 }

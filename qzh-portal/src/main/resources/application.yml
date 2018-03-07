@@ -9,6 +9,7 @@ spring:
 management:
   security:
     enabled: false
+---
 info:
   app:
     name: "@project.name@"
@@ -23,7 +24,8 @@ spring:
   sleuth:
     sampler:
       percentage: 1
-
+---
+#mybatis
 #    default-property-inclusion: non_default
 #mybatis:
 #    type-aliases-package: com.huidong.qzh.portal.entity

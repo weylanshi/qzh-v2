@@ -108,6 +108,12 @@ public class ProductGoods {
     private Integer collectNum;
 
     /**
+     * 点击量
+     */
+    @Column(name = "click_volume")
+    private Integer clickVolume;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_date")
@@ -445,5 +451,13 @@ public class ProductGoods {
 
     public void setPic(ProductGoodsPicture pic) {
         this.pic = pic;
+    }
+
+    public Integer getClickVolume() {
+        return clickVolume;
+    }
+
+    public void setClickVolume(Integer clickVolume) {
+        this.clickVolume = clickVolume;
     }
 }

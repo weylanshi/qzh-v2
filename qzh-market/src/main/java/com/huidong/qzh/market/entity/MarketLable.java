@@ -99,4 +99,14 @@ public class MarketLable {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+    @Override
+    public String toString() {
+        return "MarketLable{" +
+                "id=" + id +
+                ", lableName='" + lableName + '\'' +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", sort=" + sort +
+                '}';
+    }
 }

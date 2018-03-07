@@ -1,8 +1,6 @@
 package com.qzh.store.controller;
 
-import com.huidong.qzh.util.common.constant.LoginStatus;
 import com.huidong.qzh.util.common.util.QzhResult;
-import com.qzh.store.entity.EipAccounts;
 import com.qzh.store.entity.StoreInformation;
 import com.qzh.store.service.CommonService;
 import com.qzh.store.service.StoreCategoryService;

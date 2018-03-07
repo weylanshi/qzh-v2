@@ -15,6 +15,7 @@ public class QzhPageResult {
 
 
 
+
     public static QzhPageResult build(long pageNo, long pageSize, long totalPage, List<?> list) {
         return new QzhPageResult(pageSize, pageNo, totalPage,list);
     }

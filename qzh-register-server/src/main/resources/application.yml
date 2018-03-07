@@ -1,6 +1,22 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: qzh-register-server
-
+  profiles:
+    active: dev
+---
+# eureka
+security:
+  basic:
+    enabled: true
+  user:
+    name: admin
+    password: admin
+---
+#log
+logging:
+  level:
+    com:
+      huidong:
+        qzh: warn
+#          mapper: error
+  file: logs/register-server.log

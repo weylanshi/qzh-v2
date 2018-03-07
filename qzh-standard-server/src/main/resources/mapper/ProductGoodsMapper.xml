@@ -22,6 +22,7 @@
     <result column="is_hot" jdbcType="INTEGER" property="isHot" />
     <result column="is_new" jdbcType="INTEGER" property="isNew" />
     <result column="collect_num" jdbcType="INTEGER" property="collectNum" />
+    <result column="click_volume" jdbcType="INTEGER" property="clickVolume" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
 

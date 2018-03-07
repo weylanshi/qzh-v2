@@ -65,4 +65,20 @@ public class ProductController {
         }
     }
 
+    /**
+     * 通过 产品ID 获取 产品信息   包含  产品名称 价格
+     * @param id
+     * @return
+     */
+    @RequestMapping("/getProductById")
+    public QzhResult getProductById(@RequestParam(required = true) Integer id){
+        try {
+            QzhResult productById = productService.getProductById(id);
+            return productById;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return QzhResult.error(e.getMessage());
+        }
+    }
+
 }

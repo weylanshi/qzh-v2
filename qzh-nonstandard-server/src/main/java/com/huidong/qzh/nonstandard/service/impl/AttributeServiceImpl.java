@@ -32,22 +32,30 @@ public class AttributeServiceImpl implements AttributeService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    /**
+     *
+     * @param className  二级分类的名称
+     * @return
+     */
     public DBObject getAttributeByClassName(String className) {
         DBCollection collection = mongoTemplate.getCollection("attribute");
         BasicDBObject query = new BasicDBObject();
-        query.put("className", className);
-
-        DBObject dbObject = collection.findOne(query);
+        DBObject dbObject = null;
+        if(StringUtils.isNotBlank(className)){
+            query.put("className", className);
+            dbObject = collection.findOne(query);
+        }
         return dbObject;
     }
 
     public DBObject getProductDetail(String title) throws ScriptException {
         DBCollection collection = mongoTemplate.getCollection("advertisingPage");
         BasicDBObject query = new BasicDBObject();
-
-        query.put("title", title);
-        DBObject dbObject = collection.findOne(query);
-        BasicDBObject basicDBObject = (BasicDBObject) dbObject;
+        DBObject dbObject = null;
+       if(StringUtils.isNotBlank(title)){
+           query.put("title", title);
+           dbObject =  collection.findOne(query);
+       }
         return dbObject;
     }
 

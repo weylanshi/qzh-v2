@@ -94,8 +94,8 @@
 
         <!-- 监控-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-sleuth</artifactId>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-sleuth</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -106,12 +106,12 @@
             <artifactId>commons-beanutils</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-aop</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-aop</artifactId>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.jolokia</groupId>-->
-            <!--<artifactId>jolokia-core</artifactId>-->
+        <!--<groupId>org.jolokia</groupId>-->
+        <!--<artifactId>jolokia-core</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 
@@ -130,6 +130,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
+                    <executable>true</executable>
                 </configuration>
                 <executions>
                     <execution>

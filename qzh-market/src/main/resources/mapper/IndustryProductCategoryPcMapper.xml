@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huidong.qzh.market.mapper.IndustryProductCategoryPcMapper" >
+  <resultMap id="BaseResultMap" type="com.huidong.qzh.market.entity.IndustryProductCategoryPc" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="first_level" property="firstLevel" jdbcType="VARCHAR" />
+    <result column="second_level" property="secondLevel" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

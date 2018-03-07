@@ -89,7 +89,7 @@ public class AttentionStoreController {
     }
 
     /**
-     * 判断是否关注店铺
+     * 判断是否关注店铺  0 未关注   1 已关注
      *
      * @param storeId
      * @return
@@ -99,20 +99,39 @@ public class AttentionStoreController {
                                       @RequestParam(required = true) Integer storeId) {
         Integer attentionStore = 0;
         try {
+            String token = request.getHeader("QZH_TOKEN");
             QzhResult land = commonService.isLand(request);
             if (land.getStatus() != 200) {
-                return land;
+                return QzhResult.ok(attentionStore);
             }
             Map<String, Object> land_map = (Map<String, Object>) land.getData();
             Integer accountId = Integer.parseInt(land_map.get("id").toString());
             attentionStore = attentionStoreService.isAttentionStore(accountId, storeId);
+            return QzhResult.ok(attentionStore);
         } catch (Exception e) {
             e.printStackTrace();
+            return QzhResult.error(e.getMessage());
         }
-        if (attentionStore == 0) {
-            return QzhResult.error("");
-        } else {
+    }
+
+    /**
+     * 判断是否关注店铺  0 未关注   1 已关注
+     *
+     * @param storeId
+     * @return
+     */
+    @RequestMapping("/isAttention")
+    public QzhResult isAttentionStore(@RequestParam(required = true) Integer accountId,
+                                      @RequestParam(required = true) Integer storeId) {
+        Integer attentionStore = 0;
+        try {
+            if(accountId!=null){
+                attentionStore = attentionStoreService.isAttentionStore(accountId, storeId);
+            }
             return QzhResult.ok(attentionStore);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return QzhResult.error(e.getMessage());
         }
     }
 }

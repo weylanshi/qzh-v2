@@ -1,13 +1,19 @@
+---
+server:
+  port: 8700
+spring:
+  application:
+    name: qzh-search
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+---
 # elasticSearch
 spring:
   data:
     elasticsearch:
         cluster-name: elasticsearch
         cluster-nodes: 192.168.100.73:9300
-
----
-server:
-  port: 8700
 
 ---
 # rabbitMq
@@ -17,3 +23,18 @@ spring:
     port: 5672
     username: root
     password: huidong123
+---
+eureka:
+  instance:
+    hostname: qzh-search
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://admin:admin@localhost:8200/eureka/,http://admin:admin@localhost:8201/eureka/,http://admin:admin@localhost:8201/eureka/
+---
+#log
+logging:
+  level:
+    com:
+      qzh: debug
+  file: logs/qzh-search.log

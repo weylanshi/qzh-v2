@@ -10,15 +10,15 @@ spring:
       database: product
 #      username: admin
 #      password: admin
-
+---
 eureka:
   instance:
     hostname: qzh-nonstandard
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://admin:admin@localhost:8200/eureka/
-
+      defaultZone: http://admin:admin@localhost:8200/eureka/,http://admin:admin@localhost:8201/eureka/
+---
 #log
 logging:
   level:

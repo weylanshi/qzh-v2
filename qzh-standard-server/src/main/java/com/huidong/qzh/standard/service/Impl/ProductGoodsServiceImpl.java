@@ -28,13 +28,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductGoodsServiceImpl implements ProductGoodsService{
+public class ProductGoodsServiceImpl implements ProductGoodsService {
+
+
     @Autowired
     private MongoTemplate mongoTemplate;
     @Autowired
     private CommonService commonService;
     @Autowired
-    private ProductGoodsMapper  productGoodsMapper;
+    private ProductGoodsMapper productGoodsMapper;
     @Autowired
     private ProductGoodsPictureMapper pictureMapper;
     @Autowired
@@ -51,7 +53,8 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
     private ShopStatisticsMapper shopStatisticsMapper;
 
     /**
-     *联表查询   product_goods    product_goods_picture  测试
+     * 联表查询   product_goods    product_goods_picture  测试
+     *
      * @return
      */
     @Override
@@ -60,19 +63,20 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
     }
 
     /**
-     *联表查询   product_goods    product_goods_picture
+     * 联表查询   product_goods    product_goods_picture
+     *
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public Page<ProductGoods> listGoodsWithPic(Integer pageNo,Integer pageSize){
+    public Page<ProductGoods> listGoodsWithPic(Integer pageNo, Integer pageSize) {
         Example example = new Example(ProductGoods.class);
         example.setOrderByClause(" sales_volume DESC ");
-        PageHelper.startPage(pageNo,pageSize);
+        PageHelper.startPage(pageNo, pageSize);
         Page<ProductGoods> page = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
         List<ProductGoods> goods = page.getResult();
-        goods.forEach(good ->{
+        goods.forEach(good -> {
             ProductGoodsPicture pic = new ProductGoodsPicture();
             pic.setGoodsId(good.getId());
             ProductGoodsPicture productGoodsPicture = pictureMapper.selectOne(pic);
@@ -83,6 +87,7 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
 
     /**
      * 通过产品ID获取产品详情
+     *
      * @param goodsId
      * @return
      */
@@ -98,17 +103,18 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
 
     /**
      * 通过商家ID 获取 商家的推荐商品
+     *
      * @param memberId
      * @return
      */
     @Override
-    public Page<ProductGoods> listProductRecommend(Integer memberId,Integer pageNo,Integer pageSize) {
+    public Page<ProductGoods> listProductRecommend(Integer memberId, Integer pageNo, Integer pageSize) {
         Example example = new Example(ProductGoods.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("eipMemberId",memberId);
-        criteria.andEqualTo("isRecommend",1);
-        PageHelper.startPage(pageNo,pageSize);
-        Page<ProductGoods> page = (Page<ProductGoods>)productGoodsMapper.selectByExample(example);
+        criteria.andEqualTo("eipMemberId", memberId);
+        criteria.andEqualTo("isRecommend", 1);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<ProductGoods> page = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
         List<ProductGoods> productGoods = page.getResult();
         productGoods.forEach(good -> {
             ProductGoodsPicture pic = new ProductGoodsPicture();
@@ -122,23 +128,24 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
     /**
      * 企业门户的商品
      * 通过商家ID 获取 商家的商品  包括 产品图片 名称  价格   品牌
+     *
      * @param memberId
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public Map<String,Object> listProductByMemberId(Integer memberId, Integer pageNo, Integer pageSize) {
+    public Map<String, Object> listProductByMemberId(Integer memberId, Integer pageNo, Integer pageSize) {
         Example example = new Example(ProductGoods.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("eipMemberId",memberId);
-        PageHelper.startPage(pageNo,pageSize);
-        Page<ProductGoods> page = (Page<ProductGoods>)productGoodsMapper.selectByExample(example);
+        criteria.andEqualTo("eipMemberId", memberId);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<ProductGoods> page = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
         List<ProductGoods> goodsList = page.getResult();
-        List<Map<Object,Object>> listMap = new ArrayList<Map<Object,Object>>();
+        List<Map<Object, Object>> listMap = new ArrayList<Map<Object, Object>>();
         goodsList.forEach(goods -> {
             BeanMap beanMap = new BeanMap(goods);
-            Map<Object,Object> map = new HashMap<Object,Object>();
+            Map<Object, Object> map = new HashMap<Object, Object>();
             map.putAll(beanMap);
             map.remove("class");
             map.remove("isRecommend");
@@ -148,38 +155,39 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
             option.setGoodsId(goods.getId());
             option.setAttributeName("品牌");
             option = productAttributeOptionRelationMapper.selectOne(option);
-            Map<Object,Object> mapAttribute = new HashMap<Object,Object>();
-            mapAttribute.put("attributeName","品牌");
-            if(option!=null){
-                mapAttribute.put("optionName",option.getAttributeOptionName());
-            }else{
-                mapAttribute.put("optionName","其他");
+            Map<Object, Object> mapAttribute = new HashMap<Object, Object>();
+            mapAttribute.put("attributeName", "品牌");
+            if (option != null) {
+                mapAttribute.put("optionName", option.getAttributeOptionName());
+            } else {
+                mapAttribute.put("optionName", "其他");
             }
-            map.put("attribute",mapAttribute);
+            map.put("attribute", mapAttribute);
             //图片
             ProductGoodsPicture productGoodsPicture = new ProductGoodsPicture();
             productGoodsPicture.setGoodsId(goods.getId());
             productGoodsPicture = productGoodsPictureMapper.selectOne(productGoodsPicture);
-            map.put("pic",productGoodsPicture.getPicturePath());
+            map.put("pic", productGoodsPicture.getPicturePath());
 
             listMap.add(map);
         });
 
-        Map<String,Object> resMap = new HashMap<String,Object>();
-        resMap.put("data",listMap);
-        resMap.put("totalNum",page.getTotal());
+        Map<String, Object> resMap = new HashMap<String, Object>();
+        resMap.put("data", listMap);
+        resMap.put("totalNum", page.getTotal());
 
         return resMap;
     }
 
     /**
      * 通过货品ID 获取 货品信息 ：图片   名称   价格   单位  自营   推荐
+     *
      * @param goodsId
      * @return
      */
     @Override
     public Map<Object, Object> getProductGoodsById(Integer goodsId) {
-        Map<Object,Object> map = new HashMap<Object,Object>();
+        Map<Object, Object> map = new HashMap<Object, Object>();
         ProductGoods good = productGoodsMapper.selectByPrimaryKey(goodsId);
         BeanMap beanMap = new BeanMap(good);
         map.putAll(beanMap);
@@ -187,66 +195,68 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
         ProductGoodsPicture picture = new ProductGoodsPicture();
         picture.setGoodsId(goodsId);
         picture = productGoodsPictureMapper.selectOne(picture);
-        map.put("pic",picture.getPicturePath());
+        map.put("pic", picture.getPicturePath());
         map.remove("class");
         return map;
     }
 
     /**
-     *  实时增减收藏产品数量
-     * @param goodsId  货品表的id
-     * @param status   状态：add:新增收藏产品; del:
+     * 实时增减收藏产品数量
+     *
+     * @param goodsId 货品表的id
+     * @param status  状态：add:新增收藏产品; del:
      * @return
      */
-    public void addDelCollectionGoods(Integer goodsId,String status){
+    public void addDelCollectionGoods(Integer goodsId, String status) {
         //根据主键查出货品信息
         ProductGoods productGoods = productGoodsMapper.selectByPrimaryKey(goodsId);
         Integer collectNum = productGoods.getCollectNum();
-        if(null==collectNum||collectNum==0){
+        if (null == collectNum || collectNum == 0) {
             collectNum = 0;
         }
-        if(StringUtils.equals(status,"add")){//状态是新增收藏产品时，产品收藏数量+1
-            collectNum+=1;
-        }else if(StringUtils.equals(status,"del")){//状态是删除收藏产品时，产品收藏数量-1
-            collectNum-=1;
+        if (StringUtils.equals(status, "add")) {//状态是新增收藏产品时，产品收藏数量+1
+            collectNum += 1;
+        } else if (StringUtils.equals(status, "del")) {//状态是删除收藏产品时，产品收藏数量-1
+            collectNum -= 1;
         }
         //根据goodsId修改该货品的收藏数量
         Example example = new Example(ProductGoods.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("id",goodsId);
+        criteria.andEqualTo("id", goodsId);
         ProductGoods productGoods1 = new ProductGoods();
         productGoods1.setCollectNum(collectNum);
-        productGoodsMapper.updateByExampleSelective(productGoods1,example);
+        productGoodsMapper.updateByExampleSelective(productGoods1, example);
 
     }
 
     /**
      * 通过货品ID 获取该货品的详情页所有的信息
+     *
      * @param goodsId
      * @return
      */
     @Override
-    public QzhResult getProductDetailByGoodsId(HttpServletRequest request,Integer goodsId) {
-        Map<Object,Object> map = new HashMap<Object,Object>();
+    public QzhResult getProductDetailByGoodsId(HttpServletRequest request, Integer goodsId) {
+        Map<Object, Object> map = new HashMap<Object, Object>();
         try {
             ProductGoods productGoods = productGoodsMapper.selectByPrimaryKey(goodsId);
-            map.put("goods",productGoods);
+            map.put("goods", productGoods);
             //图片
             ProductGoodsPicture picture = new ProductGoodsPicture();
             picture.setGoodsId(goodsId);
             picture = pictureMapper.selectOne(picture);
-            map.put("picture",picture);
+            map.put("picture", picture);
             //详情
             ProductGoodsDetails goodsDetails = new ProductGoodsDetails();
             goodsDetails.setGoodsId(goodsId);
             goodsDetails = goodsDetailsMapper.selectOne(goodsDetails);
-            map.put("detail",goodsDetails);
+            map.put("detail", goodsDetails);
 
             //产品参数
             ProductAttributeOptionRelation attributeOptionRelation = new ProductAttributeOptionRelation();
             attributeOptionRelation.setGoodsId(goodsId);
             List<ProductAttributeOptionRelation> attOptionList = productAttributeOptionRelationMapper.select(attributeOptionRelation);
-            map.put("attOptions",attOptionList);
+            map.put("attOptions", attOptionList);
             //产品规格
             Product product = new Product();
             product.setGoodsId(goodsId);
@@ -255,7 +265,7 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
             productList.forEach(pro -> {
                 Example example1 = new Example(ProductSpecOptionRelation.class);
                 Example.Criteria criteria1 = example1.createCriteria();
-                criteria1.andEqualTo("productId",pro.getId());
+                criteria1.andEqualTo("productId", pro.getId());
                 List<ProductSpecOptionRelation> productSpecOptionRelations = productSpecOptionRelationMapper.selectByExample(example1);
                 productSpecOptionRelationsS.addAll(productSpecOptionRelations);
             });
@@ -263,8 +273,8 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
                     productSpecOptionRelationsS.stream().collect(Collectors.groupingBy(ProductSpecOptionRelation::getSpecName));
             Set<String> keys = groupedSpec.keySet();
             Iterator<String> iterator = keys.iterator();
-            List<Map<String,Object>> map_spec = new ArrayList<Map<String,Object>>();
-            while(iterator.hasNext()) {
+            List<Map<String, Object>> map_spec = new ArrayList<Map<String, Object>>();
+            while (iterator.hasNext()) {
                 String key = iterator.next();
                 List<ProductSpecOptionRelation> relations = groupedSpec.get(key);
                 Map<String, List<ProductSpecOptionRelation>> options = relations.stream().collect(Collectors.groupingBy(ProductSpecOptionRelation::getSpecOptionName));
@@ -293,29 +303,29 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
                 mapList.put("option", optionMapList);
                 map_spec.add(mapList);
             }
-            map.put("specOptions",map_spec);
+            map.put("specOptions", map_spec);
             //评论   一条记录
             DBCollection dbCollection = mongoTemplate.getCollection("product_comment");
             BasicDBObject query = new BasicDBObject();
             query.put("goodsId", goodsId);
             DBCursor cursor = dbCollection.find(query).sort(new BasicDBObject("createTime", -1)).skip(0).limit(1);
             List<DBObject> list = new ArrayList<DBObject>();
-            while (cursor.hasNext()){
+            while (cursor.hasNext()) {
                 DBObject next = cursor.next();
-                next.put("_id",next.get("_id").toString());
+                next.put("_id", next.get("_id").toString());
                 list.add(next);
             }
             int count = dbCollection.find(query).count();
 
-            Map<String,Object> map_comment = new HashMap<String,Object>();
-            map_comment.put("totalNum",count);
-            map_comment.put("data",list);
-            map.put("comment",map_comment);
+            Map<String, Object> map_comment = new HashMap<String, Object>();
+            map_comment.put("totalNum", count);
+            map_comment.put("data", list);
+            map.put("comment", map_comment);
             //店铺统计
             ShopStatistics shopStatistics = new ShopStatistics();
             shopStatistics.setMemberId(productGoods.getEipMemberId());
             shopStatistics = shopStatisticsMapper.selectOne(shopStatistics);
-            Map<Object,Object> map_shop = new HashMap<Object,Object>();
+            Map<Object, Object> map_shop = new HashMap<Object, Object>();
             BeanMap beanMap_store = new BeanMap(shopStatistics);
             map_shop.putAll(beanMap_store);
             map_shop.remove("class");
@@ -324,47 +334,47 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
             String storeLogo = "";//店铺图片
             String shortName = "";//店铺等级
             //判断店铺是否被关注   该商品是否被收藏 ----登陆状态下
-            Map<Object,Object> map_land = new HashMap<Object,Object>();
+            Map<Object, Object> map_land = new HashMap<Object, Object>();
             QzhResult land = commonService.isLand(request);
             Integer attentionStore = 0;
             Integer collentProduct = 0;
-            if(land.getStatus()==200){
-                Map<Object,Object> data = (Map<Object,Object>)land.getData();
+            if (land.getStatus() == 200) {
+                Map<Object, Object> data = (Map<Object, Object>) land.getData();
 
                 Integer memberId = Integer.parseInt(data.get("memberId").toString());
                 Integer id = Integer.parseInt(data.get("id").toString());
                 //获取店铺信息
                 QzhResult store = commonService.getStoreByMemberId(memberId);
-                if(store.getStatus()==200){
-                    Map<Object,Object> storeMap = (Map<Object,Object>)store.getData();
+                if (store.getStatus() == 200) {
+                    Map<Object, Object> storeMap = (Map<Object, Object>) store.getData();
                     storeLogo = storeMap.get("storeLogo").toString();
                     String memberLevel0 = storeMap.get("memberLevel").toString();
-                    if(StringUtils.isNotBlank(memberLevel0)){
+                    if (StringUtils.isNotBlank(memberLevel0)) {
                         memberLevel = memberLevel0;
                     }
                     shortName = storeMap.get("shortName").toString();
 
                     QzhResult qzhResult_store = commonService.isAttentionStore(id, Integer.parseInt(storeMap.get("id").toString()));
-                    if(qzhResult_store.getStatus()==200){
-                        attentionStore = (Integer)qzhResult_store.getData();
+                    if (qzhResult_store.getStatus() == 200) {
+                        attentionStore = (Integer) qzhResult_store.getData();
                     }
                 }
                 //收藏产品
                 QzhResult qzhResult_goods = commonService.isCollectProduct(id, goodsId);
-                if(qzhResult_goods.getStatus()==200){
-                    collentProduct = (Integer)qzhResult_goods.getData();
+                if (qzhResult_goods.getStatus() == 200) {
+                    collentProduct = (Integer) qzhResult_goods.getData();
                 }
             }
-            map_land.put("attentionStore",attentionStore);
-            map_land.put("collentProduct",collentProduct);
+            map_land.put("attentionStore", attentionStore);
+            map_land.put("collentProduct", collentProduct);
 
             //补充店铺信息
-            map_shop.put("shortName",shortName);
-            map_shop.put("memberLevel",memberLevel);
-            map_shop.put("storeLogo",storeLogo);
-            map.put("shop",map_shop);
+            map_shop.put("shortName", shortName);
+            map_shop.put("memberLevel", memberLevel);
+            map_shop.put("storeLogo", storeLogo);
+            map.put("shop", map_shop);
 
-            map.put("attentionCollect",map_land);
+            map.put("attentionCollect", map_land);
 
             return QzhResult.ok(map);
         } catch (Exception e) {
@@ -376,65 +386,66 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
 
     /**
      * 通过 名称  价格  发布与否   分类与否 搜索某商家商品
+     *
      * @param info
      * @return
      */
     @Override
-    public QzhResult listGoodsByParam(String info, Integer pageNo, Integer PageSize,Integer memberId) {
+    public QzhResult listGoodsByParam(String info, Integer pageNo, Integer PageSize, Integer memberId) {
         try {
             Example example = new Example(ProductGoods.class);
             Example.Criteria criteria = example.createCriteria();
-            if(StringUtils.isNotBlank(info)){
-                Map<String,Object> map = (Map<String,Object>) JSON.parse(info);
+            if (StringUtils.isNotBlank(info)) {
+                Map<String, Object> map = (Map<String, Object>) JSON.parse(info);
                 //产品名称
                 Object goodsName = map.get("goodsName");
-                if(goodsName!=null){
-                    criteria.andLike("goodsName","%"+goodsName.toString()+"%");
+                if (goodsName != null) {
+                    criteria.andLike("goodsName", "%" + goodsName.toString() + "%");
                 }
                 //价格区间
                 Object minPrice = map.get("minPrice");
-                if(minPrice!=null){
+                if (minPrice != null) {
                     BigDecimal minPrice1 = new BigDecimal(minPrice.toString());
-                    criteria.andGreaterThanOrEqualTo("fixedPrice",minPrice1);//大于等于
+                    criteria.andGreaterThanOrEqualTo("fixedPrice", minPrice1);//大于等于
                 }
                 Object maxPrice = map.get("maxPrice");
-                if(maxPrice!=null){
+                if (maxPrice != null) {
                     BigDecimal maxPrice1 = new BigDecimal(maxPrice.toString());
-                    criteria.andLessThanOrEqualTo("fixedPrice",maxPrice1);//小于等于
+                    criteria.andLessThanOrEqualTo("fixedPrice", maxPrice1);//小于等于
                 }
                 //状态 : 是否发布
                 Object isPublish = map.get("isPublish");
-                if(isPublish!=null){
-                    if("1".equals(isPublish.toString())){
-                        criteria.andEqualTo("isPublish",Integer.parseInt(isPublish.toString()));
-                    }else{
-                        criteria.andNotEqualTo("isPublish",1);
+                if (isPublish != null) {
+                    if ("1".equals(isPublish.toString())) {
+                        criteria.andEqualTo("isPublish", Integer.parseInt(isPublish.toString()));
+                    } else {
+                        criteria.andNotEqualTo("isPublish", 1);
                     }
 
                 }
                 //是否已分类
                 Object isCustomCategory = map.get("isCustomCategory");
-                if(isCustomCategory!=null){
-                    if(StringUtils.equals(isCustomCategory.toString(),"1")){
+                if (isCustomCategory != null) {
+                    if (StringUtils.equals(isCustomCategory.toString(), "1")) {
                         criteria.andIsNotNull("customCategoryId");
-                    }else{
+                    } else {
                         criteria.andIsNull("customCategoryId");
                     }
                 }
             }
 
             //商家
-            if(memberId!=null){
-                criteria.andEqualTo("eipMemberId",memberId);
+            if (memberId != null) {
+                criteria.andEqualTo("eipMemberId", memberId);
             }
 
-            PageHelper.startPage(pageNo,PageSize);
-            Page<ProductGoods> productGoods = (Page<ProductGoods>)productGoodsMapper.selectByExample(example);
+            PageHelper.startPage(pageNo, PageSize);
+            Page<ProductGoods> productGoods = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
             //图片 名称  价格  分类  是否发布
-            Map<Object,Object> qzhMap = new HashMap<>();
-            List<Map<Object,Object>> mapList = new ArrayList<>();
+            Map<Object, Object> qzhMap = new HashMap<>();
+            List<Map<Object, Object>> mapList = new ArrayList<>();
             productGoods.forEach(goods -> {
-                Map<Object,Object> goodsMap = new HashMap<>();
+                Map<Object, Object> goodsMap = new HashMap<>();
                 BeanMap beanMap_goods = new BeanMap(goods);
                 goodsMap.putAll(beanMap_goods);
                 goodsMap.remove("class");
@@ -443,19 +454,19 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
                 goodsPicture.setGoodsId(goods.getId());
                 ProductGoodsPicture productGoodsPicture = productGoodsPictureMapper.selectOne(goodsPicture);
                 String picPath = productGoodsPicture.getPicturePath();
-                if(StringUtils.isNotBlank(picPath)){
+                if (StringUtils.isNotBlank(picPath)) {
                     picPath = picPath.split(",")[0];
-                }else{
+                } else {
                     picPath = "";
                 }
-                goodsMap.put("pic",picPath);
+                goodsMap.put("pic", picPath);
                 mapList.add(goodsMap);
             });
             int pages = productGoods.getPages();
             long total = productGoods.getTotal();
-            qzhMap.put("totalPage",pages);
-            qzhMap.put("totalCount",total);
-            qzhMap.put("list",mapList);
+            qzhMap.put("totalPage", pages);
+            qzhMap.put("totalCount", total);
+            qzhMap.put("list", mapList);
             return QzhResult.ok(qzhMap);
         } catch (Exception e) {
             e.printStackTrace();
@@ -465,6 +476,7 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
 
     /**
      * 商品 修改/设置分类
+     *
      * @param goodsIds
      * @param categoryIds
      * @return
@@ -472,17 +484,17 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
     @Override
     public QzhResult updateGoodsCategoryId(String goodsIds, String categoryIds) {
         try {
-            if(StringUtils.isNotBlank(goodsIds)){
+            if (StringUtils.isNotBlank(goodsIds)) {
                 String[] split_goodsId = goodsIds.split(",");
-                for(int g=0;g<split_goodsId.length;g++){
-                    if(StringUtils.isNotBlank(split_goodsId[g])){
+                for (int g = 0; g < split_goodsId.length; g++) {
+                    if (StringUtils.isNotBlank(split_goodsId[g])) {
                         ProductGoods goods = productGoodsMapper.selectByPrimaryKey(Integer.parseInt(split_goodsId[g]));
                         goods.setCategoryId(categoryIds);
                         productGoodsMapper.updateByPrimaryKey(goods);
                     }
                 }
                 return QzhResult.ok("操作成功");
-            }else{
+            } else {
                 return QzhResult.error("参数异常");
             }
         } catch (Exception e) {
@@ -492,4 +504,82 @@ public class ProductGoodsServiceImpl implements ProductGoodsService{
     }
 
 
+    @Override
+    public Map<String, Object> getNoRecommendGoods(Integer memberId,
+                                                   String customCategoryId,
+                                                   String keyword,
+                                                   String rangeOfPrice,
+                                                   Integer pageNo, Integer pageSize) {
+        Example example = new Example(ProductGoods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("eipMemberId", memberId);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<ProductGoods> page = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
+        //总产品数
+        Long totalNum = page.getTotal();
+
+
+        if (StringUtils.isNotBlank(customCategoryId)) {
+            criteria.andCondition(" find_in_set('"+customCategoryId+"',custom_category_id)");
+        }
+        if (StringUtils.isNotBlank(keyword)) {
+            criteria.andLike("goodsName", '%' + keyword + '%');
+        }
+        if (StringUtils.isNotBlank(rangeOfPrice)) {
+            if (rangeOfPrice.contains(",")) {
+                String string[] = rangeOfPrice.split(",");
+                Double beginPrice = Double.parseDouble(string[0]);
+                Double endPrice = Double.parseDouble(string[1]);
+                criteria.andBetween("fixedPrice", beginPrice, endPrice);
+            }
+        }
+        criteria.andNotEqualTo("isRecommend", 1);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<ProductGoods> page1 = (Page<ProductGoods>) productGoodsMapper.selectByExample(example);
+        //未推荐个数
+        Long noRecommend = page1.getTotal();
+        //已推荐个数
+        Long recommend = totalNum - noRecommend;
+        //未推荐产品数据
+        Integer pages=page1.getPages();
+        List<ProductGoods> goodsList = page1.getResult();
+        Map<String, Object> map = new HashMap<>();
+
+        List list=new ArrayList();
+        for(ProductGoods pg:goodsList){
+            Map map1=new HashMap();
+            Integer produceId=pg.getId();
+            ProductGoodsPicture picture = new ProductGoodsPicture();
+            picture.setGoodsId(produceId);
+            picture = productGoodsPictureMapper.selectOne(picture);
+            String picturePath=picture.getPicturePath();
+            BeanMap beanMap = new BeanMap(pg);
+            map1.putAll(beanMap);
+            map1.put("picturePath",picturePath);
+            map1.remove("class");
+           list.add(map1);
+
+        }
+        map.put("pages", pages);
+        map.put("recommendNum", recommend);
+        map.put("noRecommendNum", noRecommend);
+        map.put("noRecommendData", list);
+        return map;
+    }
+
+    /**
+     * 根据id 修改is_commend 字段值
+     */
+    @Override
+    public Integer doRecommend(Integer id) {
+        ProductGoods productGoods =
+                productGoodsMapper.selectByPrimaryKey(id);
+        Integer isRecommend = productGoods.getIsRecommend();
+        Integer num = null;
+        if (isRecommend != 1) {
+            productGoods.setIsRecommend(1);
+            num = productGoodsMapper.updateByPrimaryKey(productGoods);
+        }
+        return num;
+    }
 }
