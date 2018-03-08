@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.qzh.store.mapper.StoreCategoryMapper" >
-  <resultMap id="BaseResultMap" type="com.qzh.store.entity.StoreCategory" >
+  <resultMap id="BaseResultMap" type="com.qzh.store.entity.StoreCategory">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="store_id" property="storeId" jdbcType="INTEGER" />
-    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-    <result column="category_pic" property="categoryPic" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
-    <result column="level" property="level" jdbcType="INTEGER" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="category_pic" jdbcType="VARCHAR" property="categoryPic" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="store_navigation_sort" jdbcType="INTEGER" property="storeNavigationSort" />
+    <result column="is_store_navigation" jdbcType="INTEGER" property="isStoreNavigation" />
+    <result column="store_left_navigation_sort" jdbcType="INTEGER" property="storeLeftNavigationSort" />
+    <result column="is_store_left_navigation" jdbcType="INTEGER" property="isStoreLeftNavigation" />
   </resultMap>
 </mapper>

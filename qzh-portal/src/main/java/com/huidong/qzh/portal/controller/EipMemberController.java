@@ -84,4 +84,14 @@ public class EipMemberController {
             return QzhResult.build(500,e.getMessage());
         }
     }
+    @RequestMapping("/getAreaInfo")
+    public QzhResult getAreaInfo(@RequestParam(required = false) String area){
+        try {
+            String areaInfo = memberService.getAreaInfo(area);
+            return QzhResult.ok(areaInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return QzhResult.error(e);
+        }
+    }
 }

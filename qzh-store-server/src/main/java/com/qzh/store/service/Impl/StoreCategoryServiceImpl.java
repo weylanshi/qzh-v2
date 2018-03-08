@@ -8,6 +8,7 @@ import com.qzh.store.entity.StoreInformation;
 import com.qzh.store.feign.FILEFeignClient;
 import com.qzh.store.mapper.StoreCategoryMapper;
 import com.qzh.store.mapper.StoreInformationMapper;
+import com.qzh.store.service.DecorationRankingService;
 import com.qzh.store.service.StoreCategoryService;
 import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class StoreCategoryServiceImpl implements StoreCategoryService{
     RestTemplate restTemplate;
     @Autowired
     private FILEFeignClient fileFeignClient;
+    @Autowired
+    private DecorationRankingService decorationRankingService;
 
     /**
      * 获取店铺所有的店铺商品自定义分类
@@ -227,5 +231,70 @@ public class StoreCategoryServiceImpl implements StoreCategoryService{
             e.printStackTrace();
             return QzhResult.error(e.getMessage());
         }
+    }
+
+    @Override
+    public List<StoreCategory> getNavigationCategoryInfo(Integer memberId) {
+        //根据memberId得到storeId
+        Integer storeId=decorationRankingService.getStoreId(memberId);
+        Example example=new Example(StoreCategory.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("storeId",storeId);
+        criteria.andEqualTo("level",1);
+        example.orderBy("sort").desc();
+        List<StoreCategory> storeCategoryList=categoryMapper.selectByExample(example);
+        return storeCategoryList;
+    }
+
+    @Override
+    public Integer addNavigationCategoryInfo(String stringIds) {
+        Integer num=0;
+        if(org.apache.commons.lang.StringUtils.isNotBlank(stringIds)){
+            if(stringIds.contains(",")){
+                String[] strs=stringIds.split(",");
+                for(String s:strs){
+                    Integer id=Integer.parseInt(s);
+                    StoreCategory storeCategory=new StoreCategory();
+                    storeCategory.setId(id);
+                    storeCategory= categoryMapper.selectByPrimaryKey(storeCategory);
+                    if(storeCategory.getIsStoreNavigation()!=1){
+                        storeCategory.setIsStoreNavigation(1);
+                    }
+                    categoryMapper.updateByPrimaryKey(storeCategory);
+                    num++;
+                }
+            }else{
+                Integer id=Integer.parseInt(stringIds);
+                StoreCategory storeCategory=new StoreCategory();
+                storeCategory.setId(id);
+                storeCategory= categoryMapper.selectByPrimaryKey(storeCategory);
+                if(storeCategory.getIsStoreNavigation()!=1){
+                    storeCategory.setIsStoreNavigation(1);
+                }
+                categoryMapper.updateByPrimaryKey(storeCategory);
+                num++;
+            }
+        }
+        return num;
+    }
+
+    @Override
+    public QzhResult reSortNavigationInfo(String stringIds) {
+        if(org.apache.commons.lang.StringUtils.isNotBlank(stringIds)){
+            if(stringIds.contains(",")){
+                String[] strs=stringIds.split(",");
+                int nums=strs.length;
+                    for(String s:strs){
+                        Integer id=Integer.parseInt(s);
+                        StoreCategory storeCategory=new StoreCategory();
+                        storeCategory.setId(id);
+                        storeCategory=categoryMapper.selectByPrimaryKey(storeCategory);
+                        storeCategory.setSort(nums);
+                        categoryMapper.updateByPrimaryKey(storeCategory);
+                        nums=nums-1;
+                    }
+            }
+        }
+        return QzhResult.ok("success");
     }
 }

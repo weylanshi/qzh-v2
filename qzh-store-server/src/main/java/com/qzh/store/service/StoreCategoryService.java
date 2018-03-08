@@ -1,7 +1,10 @@
 package com.qzh.store.service;
 
 import com.huidong.qzh.util.common.util.QzhResult;
+import com.qzh.store.entity.StoreCategory;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 public interface StoreCategoryService {
@@ -34,6 +37,16 @@ public interface StoreCategoryService {
      */
     QzhResult insertStoreCategoryPic(MultipartFile file, Integer memberId);
 
+    /**
+     * 根据memberId得到 storeId查询分类类别为1级的分类信息
+     * @param  memberId
+     * */
+    List<StoreCategory> getNavigationCategoryInfo(Integer memberId);
 
+    /**
+     * 根据店铺分类id 修改是否为店铺导航
+     * */
+    Integer addNavigationCategoryInfo(String stringIds);
 
+    QzhResult reSortNavigationInfo(String stringIds);
 }

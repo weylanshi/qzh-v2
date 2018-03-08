@@ -55,7 +55,7 @@ public class ProductSearchDTO implements Serializable {
      */
     private Date updateTime;
     /**
-     * 分类id
+     * 平台分类id
      */
     private Integer categoryId;
     /**
@@ -70,6 +70,10 @@ public class ProductSearchDTO implements Serializable {
      * 单位
      */
     private String unit;
+    /**
+     * 店铺的产品自定义分类 id
+     */
+    private String customCategoryId;
 
 
 
@@ -201,6 +205,14 @@ public class ProductSearchDTO implements Serializable {
         this.unit = unit;
     }
 
+    public String getCustomCategoryId() {
+        return customCategoryId;
+    }
+
+    public void setCustomCategoryId(String customCategoryId) {
+        this.customCategoryId = customCategoryId;
+    }
+
     @Override
     public String toString() {
         return "ProductSearchDTO{" +
@@ -220,6 +232,7 @@ public class ProductSearchDTO implements Serializable {
                 ", brand='" + brand + '\'' +
                 ", specOptionName='" + specOptionName + '\'' +
                 ", unit='" + unit + '\'' +
+                ", customCategoryId='" + customCategoryId + '\'' +
                 '}';
     }
 }

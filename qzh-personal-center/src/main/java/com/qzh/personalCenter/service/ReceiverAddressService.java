@@ -1,5 +1,6 @@
 package com.qzh.personalCenter.service;
 
+import com.huidong.qzh.util.common.util.QzhResult;
 import com.qzh.personalCenter.entity.ReceiverAddress;
 
 import java.util.List;
@@ -29,5 +30,13 @@ public interface ReceiverAddressService {
      * @return
      */
     String deleteAddress(Integer addressId,Integer accountId);
+
+
+    /**
+     * 得到默认地址
+     * @param accountId
+     * @return
+     */
+    QzhResult getAddressDefault(Integer accountId);
 
 }

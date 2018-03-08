@@ -39,6 +39,8 @@ public class TestController {
             productSearchDTO.setBrand("测试品牌" + i / 1000);
             productSearchDTO.setCategoryId(i / 1000 + 1);
             productSearchDTO.setSpecOptionName("平张,卷筒,汇东");
+            productSearchDTO.setUnit("盒");
+            productSearchDTO.setCustomCategoryId("123");
             try {
                 insertProductEvent.sendInsertProductEvent(productSearchDTO);
             } catch (Exception e) {

@@ -1,9 +1,10 @@
 package com.qzh.store.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "store_category")
-public class StoreCategory {
+public class StoreCategory implements Serializable{
     /**
      * 店铺分类（主键）
      */
@@ -42,6 +43,10 @@ public class StoreCategory {
      */
     private Integer level;
 
+    private Integer storeNavigationSort;
+    private Integer isStoreNavigation;
+    private Integer storeLeftNavigation;
+    private  Integer isStoreLeftNavigation;
     /**
      * 获取店铺分类（主键）
      *
@@ -162,5 +167,37 @@ public class StoreCategory {
      */
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getStoreNavigationSort() {
+        return storeNavigationSort;
+    }
+
+    public void setStoreNavigationSort(Integer storeNavigationSort) {
+        this.storeNavigationSort = storeNavigationSort;
+    }
+
+    public Integer getIsStoreNavigation() {
+        return isStoreNavigation;
+    }
+
+    public void setIsStoreNavigation(Integer isStoreNavigation) {
+        this.isStoreNavigation = isStoreNavigation;
+    }
+
+    public Integer getStoreLeftNavigation() {
+        return storeLeftNavigation;
+    }
+
+    public void setStoreLeftNavigation(Integer storeLeftNavigation) {
+        this.storeLeftNavigation = storeLeftNavigation;
+    }
+
+    public Integer getIsStoreLeftNavigation() {
+        return isStoreLeftNavigation;
+    }
+
+    public void setIsStoreLeftNavigation(Integer isStoreLeftNavigation) {
+        this.isStoreLeftNavigation = isStoreLeftNavigation;
     }
 }

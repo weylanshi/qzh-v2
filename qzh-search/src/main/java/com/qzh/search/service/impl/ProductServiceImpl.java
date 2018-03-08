@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public QzhPageResult search(String q, Integer pageNo, Integer pageSize, Integer order,
-                                Integer isNew, Integer shopId, String brand, String specOptionName) {
+                                Integer shopId, String brand, String specOptionName, String customCategoryId) {
         // 创建查询索引,参数productindex表示要查询的索引库为productindex
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(PRODUCT_INDEX);
         // 设置查询索引类型
@@ -73,22 +73,27 @@ public class ProductServiceImpl implements ProductService {
             QueryStringQueryBuilder q1 = new QueryStringQueryBuilder(q);
 //        queryBuilder.analyzer("ik_max_word");
             q1.field("productName");
-            bq.must(q1);
+            bq.should(q1);
         }
         if (shopId != null) {
             TermQueryBuilder q2 = QueryBuilders.termQuery("eipMemberId", shopId);
             bq.must(q2);
         }
-        if (isNew != null && isNew != 0) {
-            TermQueryBuilder q3 = QueryBuilders.termQuery("isNew", isNew);
+        if (order != null && order == 5) {
+            TermQueryBuilder q3 = QueryBuilders.termQuery("isNew", 1);
             bq.must(q3);
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(brand)) {
             TermQueryBuilder q4 = QueryBuilders.termQuery("brand", brand);
-            bq.must(q4);
+//            bq.must(q4);
+            bq.should(q4);
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(specOptionName)) {
             TermQueryBuilder q5 = QueryBuilders.termQuery("specOptionName", specOptionName);
+            bq.should(q5);
+        }
+        if (org.apache.commons.lang.StringUtils.isNotBlank(customCategoryId)) {
+            TermQueryBuilder q5 = QueryBuilders.termQuery("customCategoryId", customCategoryId);
             bq.must(q5);
         }
 
@@ -99,20 +104,22 @@ public class ProductServiceImpl implements ProductService {
         // 设置是否按查询匹配度排序
         searchRequestBuilder.setExplain(true);
         // 按照字段排序
-        switch (order) {
-            case 2://
-                searchRequestBuilder.addSort("salesVolume", SortOrder.DESC);
-                break;
-            case 3://价格递增
-                searchRequestBuilder.addSort("originalPrice", SortOrder.ASC);
-                break;
-            case 4:////价格递减
-                searchRequestBuilder.addSort("originalPrice", SortOrder.DESC);
-                break;
-            default:
-                searchRequestBuilder.addSort("clickVolume", SortOrder.DESC);
-                searchRequestBuilder.addSort("updateTime", SortOrder.DESC);
-                break;
+        if (order != null) {
+            switch (order) {
+                case 2://
+                    searchRequestBuilder.addSort("salesVolume", SortOrder.DESC);
+                    break;
+                case 3://价格递增
+                    searchRequestBuilder.addSort("originalPrice", SortOrder.ASC);
+                    break;
+                case 4:////价格递减
+                    searchRequestBuilder.addSort("originalPrice", SortOrder.DESC);
+                    break;
+                default:
+                    searchRequestBuilder.addSort("clickVolume", SortOrder.DESC);
+                    searchRequestBuilder.addSort("updateTime", SortOrder.DESC);
+                    break;
+            }
         }
 
         // 设置高亮显示
@@ -144,12 +151,16 @@ public class ProductServiceImpl implements ProductService {
         }
         Terms terms = response.getAggregations().get("categoryId_count");
         List<? extends Terms.Bucket> buckets = terms.getBuckets();
-        Long max = buckets.stream().mapToLong(Terms.Bucket::getDocCount).max().getAsLong();
-        List<? extends Terms.Bucket> maxList = buckets.stream().filter(b -> b.getDocCount() == max).collect(Collectors.toList());
-        Terms.Bucket bucket = maxList.get(0);
-        HashMap<String, Object> options = new HashMap<>();
-        options.put("categoryId", bucket.getKey());
-        return QzhPageResultWithOptions.build(pageNo, pageSize, (searchHits.getTotalHits() + pageSize - 1) / pageSize, resultList, options);
+        if (buckets != null && buckets.size() > 0) {
+            Long max = buckets.stream().mapToLong(Terms.Bucket::getDocCount).max().getAsLong();
+            List<? extends Terms.Bucket> maxList = buckets.stream().filter(b -> b.getDocCount() == max).collect(Collectors.toList());
+            Terms.Bucket bucket = maxList.get(0);
+            HashMap<String, Object> options = new HashMap<>();
+            options.put("categoryId", bucket.getKey());
+            return QzhPageResultWithOptions.build(pageNo, pageSize, (searchHits.getTotalHits() + pageSize - 1) / pageSize, resultList, options);
+        }
+
+        return QzhPageResult.build(pageNo, pageSize, (searchHits.getTotalHits() + pageSize - 1) / pageSize, resultList);
     }
 
 

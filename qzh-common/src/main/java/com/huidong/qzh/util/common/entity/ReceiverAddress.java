@@ -1,26 +1,21 @@
-package com.qzh.personalCenter.entity;
+package com.huidong.qzh.util.common.entity;
 
-import javax.persistence.*;
+import java.io.Serializable;
 
-@Table(name = "receiver_address")
-public class ReceiverAddress {
+public class ReceiverAddress implements Serializable{
     /**
      * 收货地址表
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
      * 用户id
      */
-    @Column(name = "account_Id")
     private Integer accountId;
 
     /**
      * 联系人
      */
-    @Column(name = "person_name")
     private String personName;
 
     /**
@@ -35,19 +30,16 @@ public class ReceiverAddress {
     /**
      * 地区信息
      */
-    @Column(name = "area_info")
     private String areaInfo;
 
     /**
      * 详细地址
      */
-    @Column(name = "detailed_address")
     private String detailedAddress;
 
     /**
      * 是否设为默认地址（0否；1是）
      */
-    @Column(name = "is_default")
     private Integer isDefault;
 
     /**
@@ -140,14 +132,6 @@ public class ReceiverAddress {
         this.area = area;
     }
 
-    public String getAreaInfo() {
-        return areaInfo;
-    }
-
-    public void setAreaInfo(String areaInfo) {
-        this.areaInfo = areaInfo;
-    }
-
     /**
      * 获取详细地址
      *
@@ -182,5 +166,13 @@ public class ReceiverAddress {
      */
     public void setIsDefault(Integer isDefault) {
         this.isDefault = isDefault;
+    }
+
+    public String getAreaInfo() {
+        return areaInfo;
+    }
+
+    public void setAreaInfo(String areaInfo) {
+        this.areaInfo = areaInfo;
     }
 }

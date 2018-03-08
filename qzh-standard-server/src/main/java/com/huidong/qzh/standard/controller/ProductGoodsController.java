@@ -150,7 +150,7 @@ public class ProductGoodsController{
      * @param goodsId
      * @return
      */
-    @PostMapping("/proDetail")
+    @RequestMapping("/proDetail")
     public QzhResult getProductDetailByGoodsId(HttpServletRequest request,
                                         @RequestParam(required = true) Integer goodsId){
         return productGoodsService.getProductDetailByGoodsId(request, goodsId);

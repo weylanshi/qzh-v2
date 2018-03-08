@@ -10,5 +10,6 @@ public interface ProductService {
 
     boolean delIndex();
 
-    QzhPageResult search(String q, Integer pageNo, Integer pageSize,Integer order,Integer isNew,Integer shopId,String brand,String specOptionName);
+    QzhPageResult search(String q, Integer pageNo, Integer pageSize,
+                         Integer order,Integer shopId,String brand,String specOptionName,String customCategoryId);
 }

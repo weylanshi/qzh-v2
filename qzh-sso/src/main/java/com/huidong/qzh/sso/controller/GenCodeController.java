@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sdkhttp.SDKServiceBindingStub;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -29,6 +31,7 @@ public class GenCodeController {
     @Autowired
     private EipAccountService accountService;
 
+    static BASE64Encoder encoder = new sun.misc.BASE64Encoder();
 
     /**
      * 生成图片验证码
@@ -38,26 +41,14 @@ public class GenCodeController {
      * @throws Exception
      */
     @RequestMapping("/genAuthCode")
-    public void genAuthCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public void genAuthCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         byte[] captchaChallengeAsJpeg = null;
-        ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
-            //生产验证码字符串并保存到session中
-            String createText = defaultKaptcha.createText();
-            String sessionId = httpServletRequest.getSession().getId();
-//            System.out.println("GENsessionId:"+sessionId);
-            stringRedisTemplate.opsForValue().set("verifyCode:" + sessionId, createText, 3, TimeUnit.MINUTES);
-            //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
-            BufferedImage challenge = defaultKaptcha.createImage(createText);
-
-            ImageIO.write(challenge, "png", jpegOutputStream);
-        } catch (IllegalArgumentException e) {
+            captchaChallengeAsJpeg = authCode2Byte(httpServletRequest);
+        } catch (IOException e) {
             httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
-        //定义response输出类型为image/png类型，使用response输出流输出图片的byte数组
-        captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
         httpServletResponse.setHeader("Cache-Control", "no-store");
         httpServletResponse.setHeader("Pragma", "no-cache");
         httpServletResponse.setDateHeader("Expires", 0);
@@ -69,6 +60,27 @@ public class GenCodeController {
         responseOutputStream.close();
     }
 
+    @RequestMapping("/webGenAuthCode")
+    public String genAuthCode(HttpServletRequest httpServletRequest) throws Exception {
+        byte[] captchaChallengeAsJpeg = authCode2Byte(httpServletRequest);
+        return encoder.encodeBuffer(captchaChallengeAsJpeg).trim();
+
+    }
+
+    private byte[] authCode2Byte(HttpServletRequest httpServletRequest) throws IOException {
+        byte[] captchaChallengeAsJpeg = null;
+        ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+        //生产验证码字符串并保存到session中
+        String createText = defaultKaptcha.createText();
+        String sessionId = httpServletRequest.getSession().getId();
+        stringRedisTemplate.opsForValue().set("verifyCode:" + sessionId, createText, 3, TimeUnit.MINUTES);
+        //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
+        BufferedImage challenge = defaultKaptcha.createImage(createText);
+        ImageIO.write(challenge, "png", jpegOutputStream);
+        //定义response输出类型为image/png类型，使用response输出流输出图片的byte数组
+        captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+        return captchaChallengeAsJpeg;
+    }
 
     /**
      * 获取手机验证码

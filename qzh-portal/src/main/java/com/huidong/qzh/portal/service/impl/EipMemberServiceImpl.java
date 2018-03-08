@@ -114,4 +114,30 @@ public class EipMemberServiceImpl implements EipMemberService {
 
         return areas;
     }
+
+    @Override
+    public String getAreaInfo(String code){
+        Example example = new Example(Area.class);
+        Example.Criteria criteria = example.createCriteria();
+        String areaInfo = "";
+        if(null!=code&&""!=code){
+            String province = code.substring(0, 2);
+            String city = code.substring(2, 4);
+            String area = code.substring(4, 6);
+
+                criteria.andLike("code",province+"%");
+                List<Area> areas = areaMapper.selectByExample(example);
+                areaInfo = areas.get(0).getName();
+
+                criteria.andLike("code",province+city+"%");
+                List<Area> areas2 = areaMapper.selectByExample(example);
+                areaInfo  = areaInfo + areas2.get(0).getName();
+
+                criteria.andEqualTo("code",code);
+                List<Area> areas3 = areaMapper.selectByExample(example);
+                areaInfo  = areaInfo + areas3.get(0).getName();
+            }
+
+        return areaInfo;
+    }
 }

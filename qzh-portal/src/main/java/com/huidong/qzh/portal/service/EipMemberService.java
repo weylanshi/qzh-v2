@@ -13,4 +13,6 @@ public interface EipMemberService {
 
     HashMap<String, Object> companyIntroduce(Integer memberId);
     List<Area> getPca(String pca);
+
+    String getAreaInfo(String code);
 }

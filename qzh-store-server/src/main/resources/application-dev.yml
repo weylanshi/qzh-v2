@@ -59,6 +59,6 @@ eureka:
 logging:
   level:
     com:
-      huidong:
-        qzh: debug
+      qzh:
+        store: debug
   file: logs/qzh-store.log

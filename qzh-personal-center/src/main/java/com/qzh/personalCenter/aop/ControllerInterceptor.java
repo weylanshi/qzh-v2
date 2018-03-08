@@ -1,8 +1,11 @@
 package com.qzh.personalCenter.aop;
 
+
 import com.huidong.qzh.util.common.annotation.LoginRequired;
+import com.huidong.qzh.util.common.entity.EipAccounts;
 import com.huidong.qzh.util.common.util.CookieUtils;
 import com.huidong.qzh.util.common.util.QzhResult;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,7 +23,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 /**
@@ -70,6 +75,21 @@ public class ControllerInterceptor {
             QzhResult loginResult = isLogin(request);
             if (loginResult.getStatus() != 200) {
                 result = loginResult;
+            } else {
+                try {
+                    EipAccounts eipAccounts = EipAccounts.class.newInstance();
+                    Object data = loginResult.getData();
+                    if (data instanceof Map) {
+                        BeanUtils.populate(eipAccounts, (Map<String, ? extends Object>) data);
+                        request.setAttribute("accounts", eipAccounts);
+                    }
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if (result == null) {
